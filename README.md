@@ -30,13 +30,14 @@ Screenshot of config-txt2img.json, which can be opened with the open config file
 * `git clone` this repo to the `extensions` folder in your Web UI installation
 
 ## Known issues
-* Unable to save fields in the quick access area at the top of the page (checkpoint, vae, clip skip, etc)
 * Unable to save multi-select fields, such as the XYZ script's checkpoint name and sampler fields
 
 ## Changelog
 <details>
-    <summary>Click to view Changelog</summary>
-    
+<summary>Click to view Changelog</summary>
+
+#### 10/20/2024
+* Checkpoint, VAE, and Clip Skip values can now be saved with a preset
 #### 10/18/2024
 * Added a new argument which an be put in webui-user.bat in COMMANDLINE_ARGS: `--configpresets-dir` to point to a different folder with Config Presets configuration files instead of using this extension's folder. Useful if you have multiple installations of A1111 and want to share your custom settings between them.
     * Example: in webui-user.bat: `set COMMANDLINE_ARGS= --configpresets-dir "C:\path\to\Config Presets config files"`

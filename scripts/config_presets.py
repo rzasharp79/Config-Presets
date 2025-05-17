@@ -54,7 +54,7 @@ def load_txt2img_custom_tracked_component_ids() -> list[str]:
 # Lines starting with a # are ignored.
 # Component IDs can be found in the HTML (id="..."), in modules/ui.py (elem_id="..."), or in an extensions python code. IDs like "component-5890" won't work because the number at the end will change each startup.
 # Entering an invalid component ID here will cause this extension to error and not load. Components that do not have a value associated with them, such as tabs and accordions, are not supported.
-# Note that components on the top row of the UI cannot be added here, such as "setting_sd_model_checkpoint", "setting_sd_vae", and "setting_CLIP_stop_at_last_layers".
+# Quick settings like "setting_sd_model_checkpoint", "setting_sd_vae", and "setting_CLIP_stop_at_last_layers" can now be added here.
 
 # Other fields:
 #txt2img_prompt
@@ -303,7 +303,7 @@ def load_img2img_custom_tracked_component_ids() -> list[str]:
 # Lines starting with a # are ignored.
 # Component IDs can be found in the HTML (id="..."), in modules/ui.py (elem_id="..."), or in an extensions python code. IDs like "component-5890" won't work because the number at the end will change each startup.
 # Entering an invalid component ID here will cause this extension to error and not load. Components that do not have a value associated with them, such as tabs and accordions, are not supported.
-# Note that components on the top row of the UI cannot be added here, such as "setting_sd_model_checkpoint", "setting_sd_vae", and "setting_CLIP_stop_at_last_layers".
+# Quick settings like "setting_sd_model_checkpoint", "setting_sd_vae", and "setting_CLIP_stop_at_last_layers" can now be added here.
 
 # Other fields:
 #img2img_prompt
@@ -818,6 +818,9 @@ class Script(scripts.Script):
             "txt2img_sampling",
             "txt2img_scheduler",        # added in A1111 1.9.0 (Schedule type)
             "txt2img_steps",
+            "setting_sd_model_checkpoint",    # Checkpoint dropdown at top of page
+            "setting_sd_vae",                 # VAE / Text Encoder dropdown
+            "setting_CLIP_stop_at_last_layers",   # Clip skip value
             "txt2img_width",
             "txt2img_height",
             "txt2img_batch_count",
@@ -852,6 +855,9 @@ class Script(scripts.Script):
             "img2img_sampling",
             "img2img_scheduler",        # added in A1111 1.9.0 (Schedule type)
             "img2img_steps",
+            "setting_sd_model_checkpoint",    # Checkpoint dropdown at top of page
+            "setting_sd_vae",                 # VAE / Text Encoder dropdown
+            "setting_CLIP_stop_at_last_layers",   # Clip skip value
             "img2img_width",
             "img2img_height",
             "img2img_batch_count",
@@ -886,6 +892,9 @@ class Script(scripts.Script):
             "txt2img_enable-checkbox",  # added in A1111 1.6.0 (Refiner accordion)
             "txt2img_switch_at",        # added in A1111 1.6.0 (Refiner Switch at)
             "txt2img_scheduler",        # added in A1111 1.9.0 (Schedule type)
+            "setting_sd_model_checkpoint",
+            "setting_sd_vae",
+            "setting_CLIP_stop_at_last_layers",
 
             "txt2img_hires_steps",      # Replaced in Vlad's SD.Next
 
@@ -909,6 +918,9 @@ class Script(scripts.Script):
             "img2img_enable-checkbox",  # added in A1111 1.6.0 (Refiner accordion)
             "img2img_switch_at",        # added in A1111 1.6.0 (Refiner Switch at)
             "img2img_scheduler",        # added in A1111 1.9.0 (Schedule type)
+            "setting_sd_model_checkpoint",
+            "setting_sd_vae",
+            "setting_CLIP_stop_at_last_layers",
 
             # vladmandic/automatic (SD.Next) https://github.com/vladmandic/automatic
             "img2img_show_seed",
@@ -1098,6 +1110,14 @@ class Script(scripts.Script):
                                     # Using a type == tuple check here will ensure compatibility with the older versions.
                                     if type(current_components[component_name]) == tuple:
                                         current_components[component_name] = current_components[component_name][0]
+
+                        # Apply quick setting values to shared options so they take effect immediately
+                        if "setting_sd_model_checkpoint" in current_components:
+                            shared.opts.sd_model_checkpoint = current_components["setting_sd_model_checkpoint"]
+                        if "setting_sd_vae" in current_components:
+                            shared.opts.sd_vae = current_components["setting_sd_vae"]
+                        if "setting_CLIP_stop_at_last_layers" in current_components:
+                            shared.opts.CLIP_stop_at_last_layers = current_components["setting_CLIP_stop_at_last_layers"]
 
                         #print("Components after :", current_components)
                         
